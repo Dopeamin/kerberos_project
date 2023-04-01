@@ -5,8 +5,10 @@ import crypto from 'crypto';
 export class KeyGenService {
   algorithm = 'aes-256-cbc';
   initVector = crypto.randomBytes(16);
-  public generateUserSecretKey() {
-    
+  hashSecret = 'test';
+  generateUserSecretKey(password: string, username: string, version = '1') {
+    const stringToHash = password + username + version;
+    return crypto.createHash('sha256').update(stringToHash);
   }
 
   crypt(securityKey: string, message: string) {
