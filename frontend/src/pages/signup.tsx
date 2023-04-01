@@ -6,15 +6,15 @@ export interface ISignUpProps {}
 
 export default function SignUp(props: ISignUpProps) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [email, setEmail] = React.useState("");
+  const [userName, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const router = useRouter();
   const onClick = async (e: any) => {};
 
-  const setEmailValue = (e: any) => {
+  const setUsernameValue = (e: any) => {
     console.log(e.target.value);
-    setEmail(e.target.value);
+    setUsername(e.target.value);
   };
 
   const setPasswordValue = (e: any) => {
@@ -37,10 +37,10 @@ export default function SignUp(props: ISignUpProps) {
             <div>
               <input
                 className="py-4 px-6 w-full bg-zinc-800 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
-                placeholder="Email"
-                type="email"
-                name="email"
-                onKeyUp={setEmailValue}
+                placeholder="Username"
+                type="text"
+                name="userName"
+                onKeyUp={setUsernameValue}
               ></input>
             </div>
             <div className="flex flex-col md:flex-row gap-4 justify-center">

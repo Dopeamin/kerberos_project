@@ -1,8 +1,24 @@
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { UserData } from "../../context/context";
 
 export default function Home() {
+  const context = useContext(UserData);
+  const [username, setUsername] = useState("");
+
+  const onClick = () => {
+    const user = {
+      username,
+      password: "",
+    };
+
+    if (context) context.updateUserData(user);
+  };
+
+  const exists = useMemo(() => {
+    return context && context.userData.username;
+  }, [context]);
   return (
     <>
       <div className="w-full flex justify-center">
@@ -35,9 +51,11 @@ export default function Home() {
       <div className="flex h-screen w-screen z-20 absolute top-0 overflow-auto p-10 box-border">
         <div className="flex-1"></div>
         <div className="flex-1 flex flex-col items-center py-4">
-          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
-            <h2 className="code">ChatGPT Api</h2>
-          </div>
+          <Link href="/service">
+            <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+              <h2 className="code">ChatGPT Api</h2>
+            </div>
+          </Link>
           <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
             <h2 className="code">Coming soon</h2>
           </div>
@@ -61,29 +79,37 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="fixed top-0 left-0 w-screen h-screen bg-black z-40 opacity-70"></div>
-      <div className="fixed top-0 left-0 w-screen h-screen flex flex-row z-40 justify-center items-center">
-        <div className="flex flex-col bg-zinc-800 p-8 rounded-xl shadow-md text-gray-300 transition-all ease-out cursor-pointer">
-          <h2 className="code mb-4">
-            Please provide a valid username, or{" "}
-            <Link href={"/signup"}>
-              <span className="code font-bold text-purple-400">Signup</span>
-            </Link>
-          </h2>
-          <input
-            className="py-2 px-4 w-full bg-zinc-600 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
-            placeholder="Username"
-            type="text"
-            name="username"
-          ></input>
-          <button
-            className="w-full bg-purple-600 py-2 mt-4 px-2 rounded-md text-white font-semibold text-md transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
+      {!exists && (
+        <>
+          <div className="fixed top-0 left-0 w-screen h-screen bg-black z-40 opacity-70"></div>
 
-          >
-            <p>Confirm</p>
-          </button>
-        </div>
-      </div>
+          <div className="fixed top-0 left-0 w-screen h-screen flex flex-row z-40 justify-center items-center">
+            <div className="flex flex-col bg-zinc-800 p-8 rounded-xl shadow-md text-gray-300 transition-all ease-out cursor-pointer">
+              <h2 className="code mb-4">
+                Please provide a valid username, or{" "}
+                <Link href={"/signup"}>
+                  <span className="code font-bold text-purple-400">Signup</span>
+                </Link>
+              </h2>
+              <input
+                className="py-2 px-4 w-full bg-zinc-600 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
+                placeholder="Username"
+                type="text"
+                name="username"
+                onKeyUp={(e: any) => {
+                  setUsername(e.target.value);
+                }}
+              ></input>
+              <button
+                className="w-full bg-purple-600 py-2 mt-4 px-2 rounded-md text-white font-semibold text-md transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
+                onClick={onClick}
+              >
+                <p>Confirm</p>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
