@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { KeyGenService } from './services/key-gen.service';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -18,9 +19,10 @@ import { KeyGenService } from './services/key-gen.service';
       username: 'user',
       password: 'password',
       database: 'db',
-      entities: [],
+      entities: [User],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([User]),
   ],
   controllers: [AppController],
   providers: [AppService, KeyGenService],
