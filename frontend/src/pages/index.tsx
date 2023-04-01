@@ -7,8 +7,8 @@ export default function Home() {
       <div className="w-full flex justify-center">
         <div className="w-full max-w-7xl flex justify-center text-7xl text-white font-bold py-10 px-10 gap-10 flex-col md:flex-row items-center">
           <div className="max-w-xl z-20">
-            <h1>Play game everyday.</h1>
-            <h1>Always be Winner.</h1>
+            <h1>Choose a server to use</h1>
+            <h1>And get authenticated</h1>
             <p className="text-sm text-gray-400 font-medium mt-4">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur
               repellat voluptatem, provident optio id dolores ea repellendus,
@@ -28,6 +28,35 @@ export default function Home() {
                 alt={"Image"}
               />
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex h-screen w-screen z-20 absolute top-0 overflow-auto p-10 box-border">
+        <div className="flex-1"></div>
+        <div className="flex-1 flex flex-col items-center py-4">
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">ChatGPT Api</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
+          </div>
+          <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
+            <h2 className="code">Coming soon</h2>
           </div>
         </div>
       </div>
