@@ -7,6 +7,7 @@ export interface IServiceProps {}
 export default function Service(props: IServiceProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [password, setPassword] = React.useState("");
+  const [message, setMessage] = React.useState("");
   const context = React.useContext(UserData);
 
   const router = useRouter();
@@ -21,6 +22,10 @@ export default function Service(props: IServiceProps) {
 
   const setPasswordValue = (e: any) => {
     setPassword(e.target.value);
+  };
+
+  const setMessageValue = (e: any) => {
+    setMessage(e.target.value);
   };
   return (
     <div className="flex justify-center w-full items-center">
@@ -38,7 +43,7 @@ export default function Service(props: IServiceProps) {
               <textarea
                 className="py-4 px-6 flex-1 h-40 bg-zinc-800 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
                 placeholder="Question ..."
-                onKeyUp={setPasswordValue}
+                onKeyUp={setMessageValue}
                 name="message"
               ></textarea>
             </div>
@@ -54,7 +59,7 @@ export default function Service(props: IServiceProps) {
             <button
               className="w-full bg-purple-600 py-4 mt-10 px-4 rounded-md text-white font-semibold text-lg transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
               onClick={onClick}
-              disabled={isLoading}
+              disabled={isLoading || !password || !message}
             >
               <p>Send message</p>
             </button>

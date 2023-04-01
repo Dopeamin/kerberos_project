@@ -103,6 +103,7 @@ export default function Home() {
               <button
                 className="w-full bg-purple-600 py-2 mt-4 px-2 rounded-md text-white font-semibold text-md transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
                 onClick={onClick}
+                disabled={!username}
               >
                 <p>Confirm</p>
               </button>

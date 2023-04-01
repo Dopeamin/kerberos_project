@@ -51,17 +51,11 @@ export default function SignUp(props: ISignUpProps) {
                 type="password"
                 name="password"
               ></input>
-              <input
-                className="py-4 px-6 flex-1 bg-zinc-800 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
-                placeholder="Confirm Password"
-                type="password"
-                name="confirmPassword"
-              ></input>
             </div>
             <button
               className="w-full bg-purple-600 py-4 mt-10 px-4 rounded-md text-white font-semibold text-lg transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
               onClick={onClick}
-              disabled={isLoading}
+              disabled={isLoading || !userName || !password}
             >
               <p>Sign Up</p>
             </button>
