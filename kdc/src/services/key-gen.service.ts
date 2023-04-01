@@ -5,7 +5,9 @@ import crypto from 'crypto';
 export class KeyGenService {
   algorithm = 'aes-256-cbc';
   initVector = crypto.randomBytes(16);
-  public generateUserSecretKey() {}
+  public generateUserSecretKey() {
+    
+  }
 
   crypt(securityKey: string, message: string) {
     const cipher = crypto.createCipheriv(
