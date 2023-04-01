@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import {
-  randomBytes,
-  createHash,
-  createCipheriv,
-  createDecipheriv,
-} from 'crypto';
+import { randomBytes, createHash } from 'crypto';
+import { AES, enc } from 'crypto-js';
 
 @Injectable()
 export class KeyGenService {
@@ -18,20 +14,10 @@ export class KeyGenService {
   }
 
   crypt(securityKey: string, message: string) {
-    const cipher = createCipheriv(this.algorithm, securityKey, this.initVector);
-    let encryptedData = cipher.update(message, 'utf-8', 'hex');
-    encryptedData += cipher.final('hex');
-    return encryptedData;
+    return AES.encrypt(message, securityKey).toString();
   }
 
   decrypt(securityKey: string, encryptedData: string) {
-    const decipher = createDecipheriv(
-      this.algorithm,
-      securityKey,
-      this.initVector,
-    );
-    let decryptedData = decipher.update(encryptedData, 'hex', 'utf-8');
-    decryptedData += decipher.final('utf8');
-    return decryptedData;
+    return AES.decrypt(encryptedData, securityKey).toString(enc.Utf8);
   }
 }
