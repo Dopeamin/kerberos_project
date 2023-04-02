@@ -10,6 +10,7 @@ export interface IServiceProps {}
 export default function Service(props: IServiceProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [password, setPassword] = React.useState("");
+  const [result, setResult] = React.useState("");
   const [message, setMessage] = React.useState("");
   const { userData } = useContext(UserDataContext);
   const { askForST } = useAuth();
@@ -81,6 +82,30 @@ export default function Service(props: IServiceProps) {
           <div className="fixed z-40 bg-black w-screen h-screen top-0 left-0 opacity-60"></div>
           <div className="fixed flex justify-center items-center z-40  w-screen h-screen top-0 left-0">
             <InfinitySpin width="200" color="white" />
+          </div>
+        </>
+      )}
+      {result && (
+        <>
+          <div className="fixed z-40 bg-black w-screen h-screen top-0 left-0 opacity-60"></div>
+          <div className="fixed flex justify-center items-center z-40  w-screen h-screen top-0 left-0 p-4">
+            <div className="flex flex-col bg-zinc-800 p-8 rounded-xl shadow-md text-gray-300 transition-all ease-out cursor-pointer max-w-screen-lg">
+              <h2 className="code mb-4 text-lg">
+                This is the answer to your question
+              </h2>
+              <p className="code mb-4 text-sm p-4 bg-zinc-900 rounded-lg">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum
+                numquam fugit nam quae repudiandae doloribus dignissimos dolor,
+                tempore atque commodi voluptatem quam quis mollitia quas aut
+                modi! Exercitationem, rerum quisquam!
+              </p>
+              <button
+                className="w-full bg-purple-600 py-2 mt-4 px-2 rounded-md text-white font-semibold text-md transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
+                onClick={onClick}
+              >
+                <p>Okay</p>
+              </button>
+            </div>
           </div>
         </>
       )}
