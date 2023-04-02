@@ -1,4 +1,4 @@
-import { signup } from "@/requests";
+import { signup } from "@/utils/requests";
 import axios from "axios";
 import { useRouter } from "next/router";
 import * as React from "react";

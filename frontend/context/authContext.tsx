@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext } from "react";
 import { UserDataContext } from "./context";
-import { getTGT } from "@/requests";
+import { getTGT } from "@/utils/requests";
 
 export type AuthContextType = {
   askForTGT: (params: {
