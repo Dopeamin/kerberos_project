@@ -1,0 +1,28 @@
+import axios from "axios";
+
+const AuthenticationServerUrl = "http://localhost:3000";
+
+export const signup = async (username: string, password: string) => {
+  return axios.post(AuthenticationServerUrl + "/signup", {
+    username,
+    password,
+  });
+};
+
+export const getTGT = async ({
+  username,
+  serviceName = "chatgpt-server",
+  lifetime = "day",
+}: {
+  username: string;
+  serviceName: string;
+  lifetime: string;
+}) => {
+  return axios
+    .post(AuthenticationServerUrl + "/ticket-granting-ticket", {
+      username,
+      serviceName,
+      lifetime,
+    })
+    .catch(console.log);
+};
