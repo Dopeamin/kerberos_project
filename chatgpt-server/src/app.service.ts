@@ -4,9 +4,6 @@ import { crypt, decrypt } from './utils/crypto';
 @Injectable()
 export class AppService {
   getHello(encUserAuthenticator: string, encServiceTicket: string) {
-    console.log(encUserAuthenticator, encServiceTicket);
-    console.log(process.env.SERVICE_SECRET);
-
     // decrypting service ticket
     const ServiceTicketStr = decrypt(
       process.env.SERVICE_SECRET,
@@ -20,6 +17,7 @@ export class AppService {
       );
 
     const serviceTicket = JSON.parse(ServiceTicketStr);
+    console.log(serviceTicket);
 
     // decrypt user authenticator
     const serviceSessionKey = serviceTicket.serviceSessionKey;

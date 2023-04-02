@@ -16,6 +16,8 @@ export class TicketGrantingServerService {
     const secret_key = process.env.TICKET_GRANTING_SERVER_SECRET;
     const tgt = JSON.parse(this.keygen.decrypt(secret_key, enctgt));
 
+    console.log('ticket granting ticket', tgt);
+
     const tgsSessionKey = tgt.tgsSessionKey;
     // decrypting user authenticator
     const userAuthenticator = JSON.parse(

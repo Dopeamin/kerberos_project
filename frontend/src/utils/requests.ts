@@ -1,4 +1,5 @@
 import axios from "axios";
+import Lifetime from "@/enums/Lifetime";
 
 const AuthenticationServerUrl = "http://localhost:3000";
 
@@ -12,11 +13,11 @@ export const signup = async (username: string, password: string) => {
 export const getTGT = async ({
   username,
   serviceName = "chatgpt-server",
-  lifetime = "day",
+  lifetime = Lifetime.DAY,
 }: {
   username: string;
   serviceName: string;
-  lifetime: string;
+  lifetime: Lifetime;
 }) => {
   return axios.post(AuthenticationServerUrl + "/ticket-granting-ticket", {
     username,

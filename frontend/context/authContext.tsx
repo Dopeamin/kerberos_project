@@ -2,10 +2,11 @@ import { createContext, useCallback, useContext, useRef } from "react";
 import { UserDataContext } from "./context";
 import { getST, getTGT, sendST } from "@/utils/requests";
 import { crypt, decrypt, generateUserSecretKey } from "@/utils/crypto";
+import Lifetime from "@/enums/Lifetime";
 
 export type AuthContextType = {
   askForTGT: (params: {
-    lifetime?: string;
+    lifetime?: Lifetime;
     serviceName?: string;
   }) => Promise<true | null>;
   askForST: (password: string) => Promise<true | null>;
@@ -42,9 +43,9 @@ export function AuthProvider({ children }: { children: any }) {
   const askForTGT = useCallback(
     async ({
       serviceName = "chatgpt-server",
-      lifetime = "day",
+      lifetime = Lifetime.DAY,
     }: {
-      lifetime?: string;
+      lifetime?: Lifetime;
       serviceName?: string;
     }) => {
       if (!userData.username) return null;

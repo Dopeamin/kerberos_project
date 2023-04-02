@@ -54,7 +54,7 @@ export class AppService {
       tgsUrl: process.env.TICKET_GRANTING_SERVER_URL,
       timestamp: Date.now(),
       userIp: ip,
-      lifetimeForTGT: lifetime,
+      lifetime,
       tgsSessionKey,
     };
 
