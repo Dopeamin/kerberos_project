@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import Context from "../../context/context";
+import { AuthProvider } from "../../context/authContext";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -13,10 +14,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Context>
-        <div className="w-screen min-h-screen gradient-background">
-          <Header />
-          <Component {...pageProps} />
-        </div>
+        <AuthProvider>
+          <div className="w-screen min-h-screen gradient-background">
+            <Header />
+            <Component {...pageProps} />
+          </div>
+        </AuthProvider>
       </Context>
     </>
   );

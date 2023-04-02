@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import * as React from "react";
-import { UserData } from "../../context/context";
+import { UserDataContext } from "../../context/context";
 
 export interface IServiceProps {}
 
@@ -8,16 +8,14 @@ export default function Service(props: IServiceProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
-  const context = React.useContext(UserData);
+  const { userData } = React.useContext(UserDataContext);
 
   const router = useRouter();
   React.useEffect(() => {
-    if (context) {
-      if (!context.userData?.username) {
-        router.push("/");
-      }
+    if (!userData?.username) {
+      router.push("/");
     }
-  }, [context]);
+  }, [router, userData]);
   const onClick = async (e: any) => {};
 
   const setPasswordValue = (e: any) => {

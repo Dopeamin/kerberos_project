@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 export type User = {
   username?: string;
   password?: string;
@@ -8,22 +8,30 @@ export type ContextType = {
   updateUserData: (user: User) => void;
 };
 
-export const UserData = createContext<ContextType | null>(null);
+const defaultUser: User = {
+  username: "",
+  password: "",
+};
+
+export const UserDataContext = createContext<ContextType>({
+  userData: defaultUser,
+  updateUserData: () => {},
+});
 
 export default function Context({ children }: { children: any }) {
-  const defaultUser: User = {
-    username: "",
-    password: "",
-  };
   const [userData, setUserData] = useState(defaultUser);
 
   const updateUserData = (user: User) => {
     setUserData(user);
   };
 
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
+
   return (
-    <UserData.Provider value={{ userData, updateUserData }}>
+    <UserDataContext.Provider value={{ userData, updateUserData }}>
       {children}
-    </UserData.Provider>
+    </UserDataContext.Provider>
   );
 }
