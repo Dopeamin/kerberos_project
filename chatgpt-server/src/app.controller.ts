@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Public } from './decorators/public.decorator';
 
@@ -11,5 +11,10 @@ export class AppController {
   getHello(@Body() body) {
     const { encUserAuthenticator, encServiceTicket } = body;
     return this.appService.getHello(encUserAuthenticator, encServiceTicket);
+  }
+
+  @Get('test-auth')
+  test() {
+    return 'test passed';
   }
 }
