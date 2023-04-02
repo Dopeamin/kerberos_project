@@ -38,6 +38,7 @@ export function AuthProvider({ children }: { children: any }) {
       encServiceTicket: "",
     },
     encServiceTicket: "",
+    serviceUrl: "",
   });
 
   const askForTGT = useCallback(
@@ -155,7 +156,6 @@ export function AuthProvider({ children }: { children: any }) {
         return null;
       }
       const forClient = JSON.parse(forClientStr);
-      console.log(forClient);
 
       //   saving tgsSessionKey
       const tgsSessionKey = forClient.tgsSessionKey;
@@ -211,6 +211,9 @@ export function AuthProvider({ children }: { children: any }) {
         dataRef.current.afterGettingST.forClient = newForClient;
         dataRef.current.afterGettingST.encServiceTicket = encServiceTicket;
         dataRef.current.serviceSessionKey = newForClient.serviceSessionKey;
+        dataRef.current.serviceUrl = newForClient.serviceUrl;
+
+        console.log("data here", dataRef.current);
 
         const success = await sendServiceTicket();
         if (!success) return null;
