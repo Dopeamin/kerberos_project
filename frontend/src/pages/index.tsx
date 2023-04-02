@@ -5,6 +5,8 @@ import { UserDataContext } from "../../context/context";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/authContext";
 import { checkUser } from "@/utils/requests";
+import { OperationCanceledException } from "typescript";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const { updateUserData, userData } = useContext(UserDataContext);
@@ -23,7 +25,12 @@ export default function Home() {
       .then((res) => {
         if (res.data) {
           updateUserData(user);
+        } else {
+          throw OperationCanceledException;
         }
+      })
+      .catch((e) => {
+        toast.error("Wrong username");
       })
       .finally(() => {
         setLoading(false);

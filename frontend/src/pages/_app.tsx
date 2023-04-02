@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import Context from "../../context/context";
 import { AuthProvider } from "../../context/authContext";
+import { ToastContainer } from "react-toastify";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -15,6 +16,18 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Context>
         <AuthProvider>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
           <div className="w-screen min-h-screen gradient-background">
             <Header />
             <Component {...pageProps} />

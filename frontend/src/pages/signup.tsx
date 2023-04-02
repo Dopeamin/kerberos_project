@@ -3,6 +3,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { MouseEventHandler, ChangeEventHandler } from "react";
+import { InfinitySpin } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 export interface ISignUpProps {}
 
@@ -15,12 +17,18 @@ export default function SignUp(props: ISignUpProps) {
 
   const onClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     signup(userName, password)
       .then((res) => {
+        toast.success("Registered successfully");
         router.push("/");
       })
       .catch((res) => {
+        toast.error("A Problem happened. Please try again later");
         console.log(res);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -77,6 +85,14 @@ export default function SignUp(props: ISignUpProps) {
           </form>
         </div>
       </div>
+      {isLoading && (
+        <>
+          <div className="fixed z-40 bg-black w-screen h-screen top-0 left-0 opacity-60"></div>
+          <div className="fixed flex justify-center items-center z-40  w-screen h-screen top-0 left-0">
+            <InfinitySpin width="200" color="white" />
+          </div>
+        </>
+      )}
     </div>
   );
 }
