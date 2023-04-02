@@ -6,11 +6,11 @@ export type AuthContextType = {
   askForTGT: (params: {
     lifetime?: string;
     serviceName?: string;
-  }) => Promise<void>;
+  }) => Promise<true | null>;
 };
 
 const AuthContext = createContext<AuthContextType>({
-  askForTGT: async () => {},
+  askForTGT: async () => null,
 });
 
 export function useAuth() {
@@ -28,13 +28,24 @@ export function AuthProvider({ children }: { children: any }) {
       lifetime?: string;
       serviceName?: string;
     }) => {
-      if (!userData.username) return;
+      if (!userData.username) return null;
       const result = await getTGT({
         username: userData.username,
         serviceName,
         lifetime,
+      }).catch((err) => {
+        console.log(err);
+        return null;
       });
-      console.log(result);
+      if (!result) return null;
+
+      const encForClient = result.data.encForClient;
+      const enctgt = result.data.enctgt;
+      if (!encForClient || !enctgt) return null;
+
+      //   decrypt for client
+
+      return true;
     },
     [userData]
   );

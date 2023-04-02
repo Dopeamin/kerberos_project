@@ -24,5 +24,4 @@ export const getTGT = async ({
       serviceName,
       lifetime,
     })
-    .catch(console.log);
 };

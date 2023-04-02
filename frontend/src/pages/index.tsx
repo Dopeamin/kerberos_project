@@ -25,7 +25,8 @@ export default function Home() {
   }, [userData]);
 
   const chooseService = useCallback(async () => {
-    await askForTGT({});
+    const success = await askForTGT({});
+    if (!success) return;
     router.push("/service");
   }, [router, askForTGT]);
 
