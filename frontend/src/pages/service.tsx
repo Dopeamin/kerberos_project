@@ -3,6 +3,7 @@ import * as React from "react";
 import { UserDataContext } from "../../context/context";
 import { useCallback, useContext } from "react";
 import { useAuth } from "../../context/authContext";
+import { InfinitySpin } from "react-loader-spinner";
 
 export interface IServiceProps {}
 
@@ -22,7 +23,8 @@ export default function Service(props: IServiceProps) {
   const onClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(
     async (e) => {
       e.preventDefault();
-      askForST(password);
+      setIsLoading(true);
+      askForST(password).finally(() => setIsLoading(false));
     },
     [password, askForST]
   );
@@ -74,6 +76,14 @@ export default function Service(props: IServiceProps) {
           </form>
         </div>
       </div>
+      {isLoading && (
+        <>
+          <div className="fixed z-40 bg-black w-screen h-screen top-0 left-0 opacity-60"></div>
+          <div className="fixed flex justify-center items-center z-40  w-screen h-screen top-0 left-0">
+            <InfinitySpin width="200" color="white" />
+          </div>
+        </>
+      )}
     </div>
   );
 }
