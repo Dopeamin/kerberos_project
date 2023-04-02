@@ -42,3 +42,7 @@ export const getST = async ({
     encUserAuthenticator,
   });
 };
+
+export const checkUser = async ({ username }: { username: string }) => {
+  return await axios.post(AuthenticationServerUrl + "/user", { username });
+};

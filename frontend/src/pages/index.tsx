@@ -4,10 +4,12 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { UserDataContext } from "../../context/context";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/authContext";
+import { checkUser } from "@/utils/requests";
 
 export default function Home() {
   const { updateUserData, userData } = useContext(UserDataContext);
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { askForTGT } = useAuth();
 
@@ -16,8 +18,16 @@ export default function Home() {
       username,
       password: "",
     };
-
-    updateUserData(user);
+    setLoading(true);
+    checkUser({ username })
+      .then((res) => {
+        if (res.data) {
+          updateUserData(user);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const exists = useMemo(() => {
@@ -114,7 +124,7 @@ export default function Home() {
               <button
                 className="w-full bg-purple-600 py-2 mt-4 px-2 rounded-md text-white font-semibold text-md transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
                 onClick={onClick}
-                disabled={!username}
+                disabled={!username || loading}
               >
                 <p>Confirm</p>
               </button>
