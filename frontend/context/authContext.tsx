@@ -121,8 +121,13 @@ export function AuthProvider({ children }: { children: any }) {
       return null;
     }
     const serviceAuthenticator = JSON.parse(serviceAuthenticatorStr);
-
     console.log("service authenticator", serviceAuthenticator);
+
+    //check if the service name is the same
+    if (serviceAuthenticator.serviceName !== data.serviceName) {
+      console.log("Failed: accessing a different service");
+      return null;
+    }
 
     return true;
   }, [userData]);
