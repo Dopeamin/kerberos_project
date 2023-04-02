@@ -1,6 +1,8 @@
+import { signup } from "@/requests";
 import axios from "axios";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { MouseEventHandler, ChangeEventHandler } from "react";
 
 export interface ISignUpProps {}
 
@@ -10,16 +12,27 @@ export default function SignUp(props: ISignUpProps) {
   const [password, setPassword] = React.useState("");
 
   const router = useRouter();
-  const onClick = async (e: any) => {};
 
-  const setUsernameValue = (e: any) => {
+  const onClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault();
+    signup(userName, password)
+      .then((res) => {
+        router.push("/");
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+
+  const setUsernameValue: ChangeEventHandler<HTMLInputElement> = (e) => {
     console.log(e.target.value);
     setUsername(e.target.value);
   };
 
-  const setPasswordValue = (e: any) => {
+  const setPasswordValue: ChangeEventHandler<HTMLInputElement> = (e) => {
     setPassword(e.target.value);
   };
+
   return (
     <div className="flex justify-center w-full items-center">
       <div className="flex flex-col w-full max-w-7xl mt-10 items-center">
@@ -40,14 +53,16 @@ export default function SignUp(props: ISignUpProps) {
                 placeholder="Username"
                 type="text"
                 name="userName"
-                onKeyUp={setUsernameValue}
+                value={userName}
+                onChange={setUsernameValue}
               ></input>
             </div>
             <div className="flex flex-col md:flex-row gap-4 justify-center">
               <input
                 className="py-4 px-6 flex-1 bg-zinc-800 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
                 placeholder="Password"
-                onKeyUp={setPasswordValue}
+                onChange={setPasswordValue}
+                value={password}
                 type="password"
                 name="password"
               ></input>
