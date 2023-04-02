@@ -162,22 +162,27 @@ export function AuthProvider({ children }: { children: any }) {
       const encServiceTicket = result.data.encServiceTicket;
 
       //decrypt for client
-      const newForClientStr = decrypt(data.tgsSessionKey, encForClient);
-      if (!newForClientStr) {
-        console.log("Failed to decrypt new for client");
+      try {
+        const newForClientStr = decrypt(data.tgsSessionKey, encForClient);
+        if (!newForClientStr) {
+          console.log("Failed to decrypt new for client");
+          return null;
+        }
+        const newForClient = JSON.parse(newForClientStr);
+        console.log(newForClient);
+
+        //   saving results
+        dataRef.current.afterGettingST.forClient = newForClient;
+        dataRef.current.afterGettingST.encServiceTicket = encServiceTicket;
+        dataRef.current.serviceSessionKey = newForClient.serviceSessionKey;
+
+        await sendServiceTicket();
+
+        return true;
+      } catch (e) {
+        console.error(e);
         return null;
       }
-      const newForClient = JSON.parse(newForClientStr);
-      console.log(newForClient);
-
-      //   saving results
-      dataRef.current.afterGettingST.forClient = newForClient;
-      dataRef.current.afterGettingST.encServiceTicket = encServiceTicket;
-      dataRef.current.serviceSessionKey = newForClient.serviceSessionKey;
-
-      await sendServiceTicket();
-
-      return true;
     },
     [userData, sendServiceTicket]
   );
