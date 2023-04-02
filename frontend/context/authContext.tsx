@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: any }) {
       forClient: null,
       encServiceTicket: "",
     },
+    encServiceTicket: "",
   });
 
   const askForTGT = useCallback(
@@ -128,6 +129,9 @@ export function AuthProvider({ children }: { children: any }) {
       console.log("Failed: accessing a different service");
       return null;
     }
+
+    //saving ticket
+    data.encServiceTicket = encServiceTicket;
 
     return true;
   }, [userData]);
