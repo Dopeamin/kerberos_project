@@ -42,3 +42,15 @@ export const getST = async ({
     encUserAuthenticator,
   });
 };
+
+export const sendST = async ({
+  serviceUrl,
+  encUserAuthenticator,
+  encServiceTicket,
+}: {
+  serviceUrl: string;
+  encUserAuthenticator: string;
+  encServiceTicket: string;
+}) => {
+  return axios.post(serviceUrl, { encUserAuthenticator, encServiceTicket });
+};

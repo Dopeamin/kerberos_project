@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useRef } from "react";
 import { UserDataContext } from "./context";
-import { getST, getTGT } from "@/utils/requests";
+import { getST, getTGT, sendST } from "@/utils/requests";
 import { crypt, decrypt, generateUserSecretKey } from "@/utils/crypto";
 
 export type AuthContextType = {
@@ -99,6 +99,18 @@ export function AuthProvider({ children }: { children: any }) {
       encServiceTicket,
     });
     console.log("service url", url);
+
+    const result = await sendST({
+      serviceUrl: url,
+      encUserAuthenticator,
+      encServiceTicket,
+    }).catch((err) => {
+      console.log(err);
+      return null;
+    });
+    if (!result) return null;
+    console.log(result);
+    return true;
   }, [userData]);
 
   const askForST = useCallback(
@@ -176,8 +188,8 @@ export function AuthProvider({ children }: { children: any }) {
         dataRef.current.afterGettingST.encServiceTicket = encServiceTicket;
         dataRef.current.serviceSessionKey = newForClient.serviceSessionKey;
 
-        await sendServiceTicket();
-
+        const success = await sendServiceTicket();
+        if (!success) return null;
         return true;
       } catch (e) {
         console.error(e);
