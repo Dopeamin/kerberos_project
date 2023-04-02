@@ -28,6 +28,10 @@ export class TicketGrantingServerService {
         'Ticket is for another user',
         HttpStatus.CONFLICT,
       );
+    // TODO: verify timestamp (should be less than two minutes difference)
+    // TODO: verify user ip address
+    // TODO: check that the tgt lifetime has not expired
+    // TODO: check cache and add authenticator if it's not there
 
     // preparing messages
     const serviceSessionKey = uuid();
