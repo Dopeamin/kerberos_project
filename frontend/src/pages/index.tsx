@@ -1,11 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { UserData } from "../../context/context";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { UserDataContext } from "../../context/context";
+import { useRouter } from "next/router";
+import { useAuth } from "../../context/authContext";
 
 export default function Home() {
-  const context = useContext(UserData);
+  const { updateUserData, userData } = useContext(UserDataContext);
   const [username, setUsername] = useState("");
+  const router = useRouter();
+  const { askForTGT } = useAuth();
 
   const onClick = () => {
     const user = {
@@ -13,12 +17,18 @@ export default function Home() {
       password: "",
     };
 
-    if (context) context.updateUserData(user);
+    updateUserData(user);
   };
 
   const exists = useMemo(() => {
-    return context && context.userData.username;
-  }, [context]);
+    return userData.username;
+  }, [userData]);
+
+  const chooseService = useCallback(async () => {
+    await askForTGT({});
+    router.push("/service");
+  }, [router, askForTGT]);
+
   return (
     <>
       <div className="w-full flex justify-center">
@@ -51,11 +61,11 @@ export default function Home() {
       <div className="flex h-screen w-screen z-20 absolute top-0 overflow-auto p-10 box-border">
         <div className="flex-1"></div>
         <div className="flex-1 flex flex-col items-center py-4">
-          <Link href="/service">
+          <button onClick={chooseService}>
             <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
               <h2 className="code">ChatGPT Api</h2>
             </div>
-          </Link>
+          </button>
           <div className="flex bg-zinc-800 p-4 rounded-xl shadow-md text-gray-300 w-60 transition-all ease-out cursor-pointer hover:-translate-y-1 hover:shadow-purple-900 mb-10">
             <h2 className="code">Coming soon</h2>
           </div>
