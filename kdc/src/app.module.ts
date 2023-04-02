@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { KeyGenService } from './services/key-gen.service';
 import { User } from './entities/user.entity';
+import { TicketGrantingServerController } from './controllers/ticket-granting-server.controller';
+import { TicketGrantingServerService } from './services/ticket-granting-server.service';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { User } from './entities/user.entity';
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  controllers: [AppController],
-  providers: [AppService, KeyGenService],
+  controllers: [AppController, TicketGrantingServerController],
+  providers: [AppService, KeyGenService, TicketGrantingServerService],
 })
 export class AppModule {}
