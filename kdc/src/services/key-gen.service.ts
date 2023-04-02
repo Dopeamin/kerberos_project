@@ -18,6 +18,6 @@ export class KeyGenService {
   }
 
   decrypt(securityKey: string, encryptedData: string) {
-    return AES.decrypt(encryptedData, securityKey).toString(enc.Utf8);
+    return AES.decrypt(encryptedData, securityKey)?.toString(enc.Utf8);
   }
 }
