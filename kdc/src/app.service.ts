@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { KeyGenService } from './services/key-gen.service';
 import Lifetime from './enums/Lifetime.enum';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AppService {
@@ -40,10 +41,13 @@ export class AppService {
     if (!user)
       throw new HttpException('Username does not exist', HttpStatus.NOT_FOUND);
 
+    // preparing messages
+    const tgsSessionKey = uuid();
     const forClient = {
       tgsUrl: process.env.TICKET_GRANTING_SERVER_URL,
       timestamp: Date.now(),
       lifetime,
+      tgsSessionKey,
     };
     const tgt = {
       username,
@@ -51,6 +55,7 @@ export class AppService {
       timestamp: Date.now(),
       userIp: ip,
       lifetimeForTGT: lifetime,
+      tgsSessionKey,
     };
 
     const encForClient = this.keygen.crypt(
