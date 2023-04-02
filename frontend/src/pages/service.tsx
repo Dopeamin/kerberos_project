@@ -4,6 +4,7 @@ import { UserDataContext } from "../../context/context";
 import { useCallback, useContext } from "react";
 import { useAuth } from "../../context/authContext";
 import { InfinitySpin } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 export interface IServiceProps {}
 
@@ -25,7 +26,11 @@ export default function Service(props: IServiceProps) {
     async (e) => {
       e.preventDefault();
       setIsLoading(true);
-      askForST(password).finally(() => setIsLoading(false));
+      askForST(password)
+        .catch((e) => {
+          toast.error("A Problem happened. Please try again later");
+        })
+        .finally(() => setIsLoading(false));
     },
     [password, askForST]
   );
