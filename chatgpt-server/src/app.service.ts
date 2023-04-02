@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { decrypt } from './utils/crypto';
+import { crypt, decrypt } from './utils/crypto';
 
 @Injectable()
 export class AppService {
-  getHello(encUserAuthenticator: string, encServiceTicket: string): string {
+  getHello(encUserAuthenticator: string, encServiceTicket: string) {
     console.log(encUserAuthenticator, encServiceTicket);
     console.log(process.env.SERVICE_SECRET);
 
@@ -21,6 +21,38 @@ export class AppService {
 
     const serviceTicket = JSON.parse(ServiceTicketStr);
 
-    return serviceTicket;
+    // decrypt user authenticator
+    const serviceSessionKey = serviceTicket.serviceSessionKey;
+
+    const userAuthStr = decrypt(serviceSessionKey, encUserAuthenticator);
+
+    if (!userAuthStr)
+      throw new HttpException(
+        'Could not decrypt the userAuth',
+        HttpStatus.UNAUTHORIZED,
+      );
+
+    const userAuthenticator = JSON.parse(userAuthStr);
+
+    // verifications
+    if (userAuthenticator.username !== serviceTicket.username)
+      throw new HttpException(
+        'ticket does not belong to user',
+        HttpStatus.UNAUTHORIZED,
+      );
+
+    //preparing service authenticator
+    const serviceAuthenticator = {
+      serviceName: 'chatgpt-server',
+      timestamp: Date.now(),
+    };
+
+    //encrypting service authenticator
+    const encServiceAuthenticator = crypt(
+      serviceSessionKey,
+      JSON.stringify(serviceAuthenticator),
+    );
+
+    return { encServiceAuthenticator };
   }
 }
