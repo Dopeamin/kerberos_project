@@ -109,7 +109,21 @@ export function AuthProvider({ children }: { children: any }) {
       return null;
     });
     if (!result) return null;
-    console.log(result);
+
+    //getting service authenticator and decrypting it
+    const encServiceAuthenticator = result.data.encServiceAuthenticator;
+    const serviceAuthenticatorStr = decrypt(
+      serviceSessionKey,
+      encServiceAuthenticator
+    );
+    if (!serviceAuthenticatorStr) {
+      console.log("Could not decrypt service authenticator");
+      return null;
+    }
+    const serviceAuthenticator = JSON.parse(serviceAuthenticatorStr);
+
+    console.log("service authenticator", serviceAuthenticator);
+
     return true;
   }, [userData]);
 
