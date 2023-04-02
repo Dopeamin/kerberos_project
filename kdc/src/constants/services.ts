@@ -1,7 +1,7 @@
 const services = {
   'chatgpt-server': {
     serviceSecret: 'serviceSecret',
-    url: 'http://localhost:3002',
+    url: 'http://localhost:3001',
   },
 };
 
