@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import * as React from "react";
 import { UserDataContext } from "../../context/context";
+import { useCallback, useContext } from "react";
+import { useAuth } from "../../context/authContext";
 
 export interface IServiceProps {}
 
@@ -8,7 +10,8 @@ export default function Service(props: IServiceProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
-  const { userData } = React.useContext(UserDataContext);
+  const { userData } = useContext(UserDataContext);
+  const { askForST } = useAuth();
 
   const router = useRouter();
   React.useEffect(() => {
@@ -16,7 +19,13 @@ export default function Service(props: IServiceProps) {
       router.push("/");
     }
   }, [router, userData]);
-  const onClick = async (e: any) => {};
+  const onClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(
+    async (e) => {
+      e.preventDefault();
+      askForST(password);
+    },
+    [password, askForST]
+  );
 
   const setPasswordValue = (e: any) => {
     setPassword(e.target.value);
@@ -41,7 +50,7 @@ export default function Service(props: IServiceProps) {
               <textarea
                 className="py-4 px-6 flex-1 h-40 bg-zinc-800 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
                 placeholder="Question ..."
-                onKeyUp={setMessageValue}
+                onChange={setMessageValue}
                 name="message"
               ></textarea>
             </div>
@@ -49,7 +58,8 @@ export default function Service(props: IServiceProps) {
               <input
                 className="py-4 px-6 flex-1 bg-zinc-800 rounded text-zinc-300 outline-none focus:shadow-xl transition-all ease-in-out"
                 placeholder="Password"
-                onKeyUp={setPasswordValue}
+                onChange={setPasswordValue}
+                value={password}
                 type="password"
                 name="password"
               ></input>
@@ -57,7 +67,7 @@ export default function Service(props: IServiceProps) {
             <button
               className="w-full bg-purple-600 py-4 mt-10 px-4 rounded-md text-white font-semibold text-lg transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
               onClick={onClick}
-              disabled={isLoading || !password || !message}
+              disabled={isLoading || !password}
             >
               <p>Send message</p>
             </button>

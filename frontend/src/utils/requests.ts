@@ -18,10 +18,27 @@ export const getTGT = async ({
   serviceName: string;
   lifetime: string;
 }) => {
-  return axios
-    .post(AuthenticationServerUrl + "/ticket-granting-ticket", {
-      username,
-      serviceName,
-      lifetime,
-    })
+  return axios.post(AuthenticationServerUrl + "/ticket-granting-ticket", {
+    username,
+    serviceName,
+    lifetime,
+  });
+};
+
+export const getST = async ({
+  tgsUrl,
+  encUserAuthenticator,
+  fortgs,
+  enctgt,
+}: {
+  tgsUrl: string;
+  encUserAuthenticator: string;
+  fortgs: any;
+  enctgt: string;
+}) => {
+  return axios.post(tgsUrl, {
+    fortgs,
+    enctgt,
+    encUserAuthenticator,
+  });
 };
