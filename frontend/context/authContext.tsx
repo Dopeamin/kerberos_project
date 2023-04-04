@@ -217,7 +217,7 @@ export function AuthProvider({ children }: { children: any }) {
 
         const success = await sendServiceTicket();
         if (!success) return null;
-        return true;
+        return encServiceTicket;
       } catch (e) {
         console.error(e);
         return null;

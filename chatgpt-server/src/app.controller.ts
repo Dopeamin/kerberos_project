@@ -17,11 +17,10 @@ export class AppController {
     return this.appService.getHello(encUserAuthenticator, encServiceTicket);
   }
 
-  @Public()
   @Post('answer')
   async getAnswer(@Body() body) {
     const { question } = body;
-    
+
     return await this.openaiService.createCompletion(question);
   }
 

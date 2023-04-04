@@ -5,6 +5,7 @@ import { useCallback, useContext } from "react";
 import { useAuth } from "../../context/authContext";
 import { InfinitySpin } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export interface IServiceProps {}
 
@@ -29,6 +30,26 @@ export default function Service(props: IServiceProps) {
       askForST(password)
         .catch((e) => {
           toast.error("A Problem happened. Please try again later");
+        })
+        .then(async (res) => {
+          console.log(res);
+          try {
+            const result = await axios.post(
+              "http://localhost:3001/answer",
+              { question: message },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": ""
+                },
+              }
+            );
+            console.log(result);
+            setResult(result.data);
+          } catch (e) {
+            console.error(e);
+            toast.error("A Problem happened. Please try again later");
+          }
         })
         .finally(() => setIsLoading(false));
     },
@@ -99,14 +120,13 @@ export default function Service(props: IServiceProps) {
                 This is the answer to your question
               </h2>
               <p className="code mb-4 text-sm p-4 bg-zinc-900 rounded-lg">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum
-                numquam fugit nam quae repudiandae doloribus dignissimos dolor,
-                tempore atque commodi voluptatem quam quis mollitia quas aut
-                modi! Exercitationem, rerum quisquam!
+                {result}
               </p>
               <button
                 className="w-full bg-purple-600 py-2 mt-4 px-2 rounded-md text-white font-semibold text-md transition-all ease-out hover:-translate-y-1 hover:shadow-lg disabled:opacity-20"
-                onClick={onClick}
+                onClick={() => {
+                  setResult("");
+                }}
               >
                 <p>Okay</p>
               </button>
