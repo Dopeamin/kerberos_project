@@ -9,7 +9,10 @@ export type AuthContextType = {
     lifetime?: Lifetime;
     serviceName?: string;
   }) => Promise<true | null>;
-  askForST: (password: string) => Promise<true | null>;
+  askForST: (password: string) => Promise<{
+    encServiceTicket: any;
+    serviceSessionKey: string;
+  } | null>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -217,7 +220,8 @@ export function AuthProvider({ children }: { children: any }) {
 
         const success = await sendServiceTicket();
         if (!success) return null;
-        return encServiceTicket;
+
+        return { encServiceTicket, serviceSessionKey: data.serviceSessionKey };
       } catch (e) {
         console.error(e);
         return null;

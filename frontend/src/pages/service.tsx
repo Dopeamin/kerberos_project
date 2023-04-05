@@ -6,6 +6,7 @@ import { useAuth } from "../../context/authContext";
 import { InfinitySpin } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { crypt } from "@/utils/crypto";
 
 export interface IServiceProps {}
 
@@ -31,8 +32,26 @@ export default function Service(props: IServiceProps) {
         .catch((e) => {
           toast.error("A Problem happened. Please try again later");
         })
-        .then(async (res) => {
-          console.log(res);
+        .then(async (result) => {
+          if (!result) {
+            console.log("failed to get st");
+            return;
+          }
+
+          const { encServiceTicket, serviceSessionKey } = result;
+
+          // creating user authenticator
+          const userAuthenticator = {
+            username: userData.username,
+            timestamp: Date.now(),
+          };
+          // encrypt user authenticator
+          const encUserAuthenticator = crypt(
+            serviceSessionKey,
+            JSON.stringify(userAuthenticator)
+          );
+
+          //creating user authenticator
           try {
             const result = await axios.post(
               "http://localhost:3001/answer",
@@ -40,7 +59,7 @@ export default function Service(props: IServiceProps) {
               {
                 headers: {
                   "Content-Type": "application/json",
-                  "Authorization": ""
+                  Authorization: `Kerberos ${encServiceTicket} ${encUserAuthenticator}`,
                 },
               }
             );
@@ -53,7 +72,7 @@ export default function Service(props: IServiceProps) {
         })
         .finally(() => setIsLoading(false));
     },
-    [password, askForST]
+    [password, askForST, message, userData]
   );
 
   const setPasswordValue = (e: any) => {
