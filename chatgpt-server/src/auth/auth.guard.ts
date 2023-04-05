@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     // else verify kerberos ticket
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
-    console.log('headers', request.headers);
+
     if (!authHeader) {
       console.log('missing auth header');
       return false;
@@ -59,11 +59,23 @@ export class AuthGuard implements CanActivate {
     }
     const userAuthenticator = JSON.parse(userAuthStr);
 
-    // verifications
+    // verifying username
     if (userAuthenticator.username !== serviceTicket.username) {
       console.log('usernames do not match');
       return false;
     }
+
+    //verifying expiration
+    const lifetimeServiceTicket = serviceTicket.lifetimeServiceTicket;
+    const ticketTimestamp = serviceTicket.timestamp;
+    const expirtationDate = lifetimeServiceTicket + ticketTimestamp;
+    if (Date.now() >= expirtationDate) {
+      console.log('service ticket expired');
+      return false;
+    }
+
+    // verifying lifetime
+    // if(userA)
 
     return true;
   }
